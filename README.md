@@ -1,11 +1,10 @@
-
 # Concrete Structural Crack Detection via Computer Vision
 
 An image-processing application for identifying potential crack patterns in concrete surfaces using computer vision and deep learning.
 
 ## Project Overview
 
-This project provides an interactive system to process concrete surface images, enhance image quality, detect potential crack edges, and generate inspection reports.
+This project provides an interactive system to process concrete surface images, enhance image quality, detect potential crack edges, and generate downloadable inspection reports.
 
 ## Features
 
@@ -16,7 +15,7 @@ This project provides an interactive system to process concrete surface images, 
 - Calculate detected edge pixel percentage.
 - Display original and processed images.
 - Generate downloadable PDF inspection reports.
-- ResNet50-based crack classification model.
+- ResNet50-based crack classification training script.
 - U-Net architecture for image segmentation.
 
 ## Technologies
@@ -32,7 +31,7 @@ This project provides an interactive system to process concrete surface images, 
 
 ## Dataset
 
-Concrete Crack Images for Classification
+**Concrete Crack Images for Classification**
 
 Source: Mendeley Data
 
@@ -42,13 +41,17 @@ The dataset contains positive (cracked) and negative (uncracked) concrete images
 
 ## Installation
 
-Install dependencies:
+Install the required dependencies:
 
+```bash
 pip install -r requirements.txt
+```
 
 ## Run Application
 
+```bash
 streamlit run app.py
+```
 
 ## Workflow
 
@@ -56,20 +59,27 @@ Image Upload → Preprocessing → Contrast Enhancement → Edge Detection → R
 
 ## Project Structure
 
-- app.py - Image processing application and PDF report generation
-- report.py - PDF report generator
-- train.py - ResNet50 classification training script
-- unet.py - U-Net segmentation architecture
-- src/ - Image processing modules
-- requirements.txt - Project dependencies
+```text
+Datheon_Concrete_Structural_Crack_Detection_via_Computer_Vision/
+│
+├── app.py
+├── report.py
+├── train.py
+├── unet.py
+├── requirements.txt
+├── README.md
+│
+└── src/
+    └── __init__.py
+```
 
 ## Current Implementation Status
 
-- Task 1: Image preprocessing and Canny edge detection implemented.
-- Task 2: ResNet50 training script prepared; training and evaluation pending.
-- Task 3: U-Net architecture implemented; segmentation training pending.
-- Task 4: PDF report generation integrated into the Streamlit application; testing pending.
+- **Task 1:** Image preprocessing, contrast enhancement, and Canny edge detection implemented and tested.
+- **Task 2:** ResNet50 classification training script prepared; model training and evaluation pending.
+- **Task 3:** U-Net segmentation architecture implemented; segmentation training and evaluation pending.
+- **Task 4:** PDF inspection report generation integrated into the Streamlit application and tested successfully.
 
 ## Disclaimer
 
-This is an educational prototype. Edge detection results do not confirm structural cracks or replace professional structural inspection.
+This is an educational prototype. Edge detection identifies image boundaries and does not confirm structural cracks. The generated report is not a professional structural safety assessment.
