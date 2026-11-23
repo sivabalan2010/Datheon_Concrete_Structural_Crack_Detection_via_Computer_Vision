@@ -1,3 +1,4 @@
+
 import torch
 import torch.nn as nn
 from torchvision import datasets, transforms, models
@@ -7,7 +8,11 @@ DATASET = "Concrete Crack Images for Classification"
 
 transform = transforms.Compose([
     transforms.Resize((224, 224)),
-    transforms.ToTensor()
+    transforms.ToTensor(),
+    transforms.Normalize(
+        [0.485, 0.456, 0.406],
+        [0.229, 0.224, 0.225]
+    )
 ])
 
 dataset = datasets.ImageFolder(DATASET, transform=transform)
@@ -24,9 +29,7 @@ test_loader = DataLoader(test_data, batch_size=32)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-model = models.resnet50(
-    weights=models.ResNet50_Weights.DEFAULT
-)
+model = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
 model.fc = nn.Linear(model.fc.in_features, 2)
 model = model.to(device)
 
@@ -37,13 +40,29 @@ for epoch in range(2):
     model.train()
     for images, labels in train_loader:
         images, labels = images.to(device), labels.to(device)
+
         optimizer.zero_grad()
         outputs = model(images)
         loss = criterion(outputs, labels)
         loss.backward()
         optimizer.step()
 
-    print(f"Epoch {epoch+1}: Loss = {loss.item():.4f}")
+    print(f"Epoch {epoch+1}, Loss: {loss.item():.4f}")
+
+model.eval()
+correct = 0
+total = 0
+
+with torch.no_grad():
+    for images, labels in test_loader:
+        images, labels = images.to(device), labels.to(device)
+        outputs = model(images)
+        _, predicted = torch.max(outputs, 1)
+        total += labels.size(0)
+        correct += (predicted == labels).sum().item()
+
+accuracy = 100 * correct / total
+print(f"Test Accuracy: {accuracy:.2f}%")
 
 torch.save(model.state_dict(), "crack_resnet50.pth")
-print("Model training completed!")
+print("Model saved successfully!")
